@@ -1,32 +1,18 @@
-import fs from "fs";
-import fetch from "node-fetch";
-
-const API_KEY = process.env.WEATHER_API_KEY;
-const CITY = "YourCityName";  // replace with your city
-
-async function getWeather() {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`;
-
+// ------------------------------------
+// FETCH WEATHER FROM GITHUB ACTION API
+// ------------------------------------
+async function loadWeather() {
   try {
-    const res = await fetch(url);
-    const data = await res.json();
+    const response = await fetch("weather.json?" + new Date().getTime());
+    const data = await response.json();
 
-    const temperature = data.main.temp;
-    const desc = data.weather[0].description;
-
-    const output = `
-<div id="weather-box">
-  <p><strong>City:</strong> ${CITY}</p>
-  <p><strong>Temperature:</strong> ${temperature}°C</p>
-  <p><strong>Condition:</strong> ${desc}</p>
-</div>
-`;
-
-    fs.writeFileSync("weather.html", output);
-    console.log("Weather updated!");
-  } catch (e) {
-    console.log("Error fetching weather:", e);
+    document.getElementById("weather-temp").innerText =
+      data.temp + "°C";
+    document.getElementById("weather-city").innerText =
+      "📍 " + data.city;
+  } catch (error) {
+    document.getElementById("weather-temp").innerText = "Error";
   }
 }
 
-getWeather();
+loadWeather();
