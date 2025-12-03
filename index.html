@@ -612,8 +612,67 @@
     });
   });
 </script>
+  
+  <script>
+  
 
-  <script src="weather.js"></script>
+  const API_KEY = "33f6c20f34c0ca5119141dd15fb2be6f";   
+  const CITY = "Ropar";                         
+
+  async function loadWeather() {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&appid=${API_KEY}`
+      );
+
+      const data = await response.json();
+
+      // Update UI
+      document.getElementById("weather-temp").innerText =
+        data.main.temp + "°C";
+
+      document.getElementById("weather-feels").innerText =
+        "Feels Like: " + data.main.feels_like + "°C";
+
+      document.getElementById("weather-humidity").innerText =
+        "Humidity: " + data.main.humidity + "%";
+
+      document.getElementById("weather-wind").innerText =
+        "Wind: " + data.wind.speed + " m/s";
+
+      const condition = data.weather[0].main;
+      document.getElementById("weather-cond").innerText = condition;
+
+      document.getElementById("weather-icon").innerText =
+        getWeatherIcon(condition);
+
+      document.getElementById("weather-city").innerText =
+        "📍 " + data.name;
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById("weather-temp").innerText = "Error loading";
+    }
+  }
+
+  // Emoji based on weather
+  function getWeatherIcon(condition) {
+    condition = condition.toLowerCase();
+    if (condition.includes("clear")) return "☀️";
+    if (condition.includes("cloud")) return "☁️";
+    if (condition.includes("rain")) return "🌧";
+    if (condition.includes("thunder")) return "⚡";
+    if (condition.includes("snow")) return "❄️";
+    if (condition.includes("fog") || condition.includes("haze") || condition.includes("smog")) return "🌫";
+    return "❓";
+  }
+
+  loadWeather();
+  </script>
+
+</body>
+</html>
+
 
 
 </body>
