@@ -26,6 +26,10 @@ async function loadWeather() {
     document.getElementById("weather-cond").innerText =
       data.condition;
 
+    // Weather Icon
+    document.getElementById("weather-icon").innerText =
+      getWeatherIcon(data.condition);
+
     // City
     document.getElementById("weather-city").innerText =
       "📍 " + data.city;
@@ -34,6 +38,18 @@ async function loadWeather() {
     console.error(error);
     document.getElementById("weather-temp").innerText = "Error";
   }
+}
+
+// Function to return emoji based on weather condition
+function getWeatherIcon(condition) {
+  condition = condition.toLowerCase();
+  if (condition.includes("clear")) return "☀️";
+  if (condition.includes("cloud")) return "☁️";
+  if (condition.includes("rain")) return "🌧";
+  if (condition.includes("thunder")) return "⚡";
+  if (condition.includes("snow")) return "❄️";
+  if (condition.includes("fog") || condition.includes("haze") || condition.includes("smog")) return "🌫";
+  return "❓";
 }
 
 loadWeather();
