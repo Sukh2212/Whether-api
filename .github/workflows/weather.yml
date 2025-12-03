@@ -1,0 +1,31 @@
+name: Update Weather
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # Runs every 6 hours
+  workflow_dispatch:        # Allow manual trigger
+
+jobs:
+  get-weather:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch Weather from API
+        run: |
+          CITY="Chandigarh"
+          RESPONSE=$(curl "https://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=${{ secrets.WEATHER_API_KEY }}&units=metric")
+          TEMP=$(echo $RESPONSE | jq '.main.temp')
+          CITYNAME=$(echo $RESPONSE | jq -r '.name')
+
+          echo "{ \"temp\": $TEMP, \"city\": \"$CITYNAME\" }" > weather.json
+
+      - name: Commit updated weather.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add weather.json
+          git commit -m "Updated weather" || echo "No changes"
+          git push
