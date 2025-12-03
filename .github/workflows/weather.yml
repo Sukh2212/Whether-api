@@ -17,10 +17,22 @@ jobs:
         run: |
           CITY="Rupnagar,Punjab,IN"
           RESPONSE=$(curl "https://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=${{ secrets.WEATHER_API_KEY }}&units=metric")
+
           TEMP=$(echo $RESPONSE | jq '.main.temp')
+          FEELS=$(echo $RESPONSE | jq '.main.feels_like')
+          HUMID=$(echo $RESPONSE | jq '.main.humidity')
+          WIND=$(echo $RESPONSE | jq '.wind.speed')
+          CONDITION=$(echo $RESPONSE | jq -r '.weather[0].main')
           CITYNAME=$(echo $RESPONSE | jq -r '.name')
 
-          echo "{ \"temp\": $TEMP, \"city\": \"$CITYNAME\" }" > weather.json
+          echo "{
+            \"temp\": $TEMP,
+            \"feels_like\": $FEELS,
+            \"humidity\": $HUMID,
+            \"wind\": $WIND,
+            \"condition\": \"$CONDITION\",
+            \"city\": \"$CITYNAME\"
+          }" > weather.json
 
       - name: Commit updated weather.json
         run: |
