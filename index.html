@@ -173,6 +173,42 @@
       scroll-padding-top: 4rem; /* Adjust based on navbar height */
     }
 
+    #weather-box {
+  max-width: 300px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+#weather-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+}
+
+#weather-box p {
+  margin: 5px 0;
+}
+
+#weather-temp {
+  font-size: 2.5rem;
+}
+
+#weather-cond {
+  font-style: italic;
+  color: #ffd700; /* Golden color for weather condition */
+}
+
+#weather-feels, #weather-humidity, #weather-wind {
+  color: #d1d5db; /* Slightly lighter gray for details */
+  font-size: 0.9rem;
+}
+
+
   </style>
 </head>
 <body class="bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
@@ -230,8 +266,12 @@
   <!-- Weather Box -->
 <div id="weather-box" class="mt-6 glass px-6 py-4 rounded-xl inline-block">
   <p class="text-lg font-semibold">Current Weather</p>
-  <p id="weather-temp" class="text-2xl font-bold">Loading...</p>
-  <p id="weather-city" class="text-sm"></p>
+   <p id="weather-city" class="text-sm mb-1"></p>
+  <p id="weather-cond" class="text-sm mb-2 font-medium"></p>
+  <p id="weather-temp" class="text-3xl font-bold mb-1"></p>
+  <p id="weather-feels" class="text-sm mb-1"></p>
+  <p id="weather-humidity" class="text-sm mb-1"></p>
+  <p id="weather-wind" class="text-sm mb-1"></p>
 </div>
 
   <div class="max-w-4xl mx-auto text-center animate-fade-in">
