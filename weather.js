@@ -1,47 +1,50 @@
-// ------------------------------------
-// FETCH WEATHER FROM GITHUB ACTION API
-// ------------------------------------
 async function loadWeather() {
   try {
     const response = await fetch("weather.json?" + new Date().getTime());
     const data = await response.json();
 
-    // Temperature
-    document.getElementById("weather-temp").innerText =
-      data.temp + "°C";
+    // Safety checks: only set text if element exists
+    const tempEl = document.getElementById("weather-temp");
+    const feelsEl = document.getElementById("weather-feels");
+    const humidityEl = document.getElementById("weather-humidity");
+    const windEl = document.getElementById("weather-wind");
+    const condEl = document.getElementById("weather-cond");
+    const iconEl = document.getElementById("weather-icon");
+    const cityEl = document.getElementById("weather-city");
 
-    // Feels Like
-    document.getElementById("weather-feels").innerText =
-      data.feels_like + "°C";
-
-    // Humidity
-    document.getElementById("weather-humidity").innerText =
-      data.humidity + "%";
-
-    // Wind
-    document.getElementById("weather-wind").innerText =
-      data.wind + " m/s";
-
-    // Weather Condition (Clouds, Clear, Haze, etc.)
-    document.getElementById("weather-cond").innerText =
-      data.condition;
-
-    // Weather Icon
-    document.getElementById("weather-icon").innerText =
-      getWeatherIcon(data.condition);
-
-    // City
-    document.getElementById("weather-city").innerText =
-      "📍 " + data.city;
+    if (tempEl) tempEl.innerText = data.temp + "°C";
+    if (feelsEl) feelsEl.innerText = data.feels_like + "°C";
+    if (humidityEl) humidityEl.innerText = data.humidity + "%";
+    if (windEl) windEl.innerText = data.wind + " m/s";
+    if (condEl) condEl.innerText = data.condition;
+    if (iconEl) iconEl.innerText = getWeatherIcon(data.condition);
+    if (cityEl) cityEl.innerText = "📍 " + data.city;
 
   } catch (error) {
     console.error(error);
-    document.getElementById("weather-temp").innerText = "Error";
+
+    // Set fallback for all elements
+    const tempEl = document.getElementById("weather-temp");
+    const feelsEl = document.getElementById("weather-feels");
+    const humidityEl = document.getElementById("weather-humidity");
+    const windEl = document.getElementById("weather-wind");
+    const condEl = document.getElementById("weather-cond");
+    const iconEl = document.getElementById("weather-icon");
+    const cityEl = document.getElementById("weather-city");
+
+    if (tempEl) tempEl.innerText = "Error";
+    if (feelsEl) feelsEl.innerText = "-";
+    if (humidityEl) humidityEl.innerText = "-";
+    if (windEl) windEl.innerText = "-";
+    if (condEl) condEl.innerText = "-";
+    if (iconEl) iconEl.innerText = "❓";
+    if (cityEl) cityEl.innerText = "-";
   }
 }
 
-// Function to return emoji based on weather condition
+// Weather emoji helper
 function getWeatherIcon(condition) {
+  if (!condition) return "❓";
   condition = condition.toLowerCase();
   if (condition.includes("clear")) return "☀️";
   if (condition.includes("cloud")) return "☁️";
