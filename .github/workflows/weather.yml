@@ -15,7 +15,7 @@ jobs:
 
       - name: Fetch Weather from API
         run: |
-          CITY="Rupnagar"
+          CITY="Rupnagar,Punjab,IN"
           RESPONSE=$(curl "https://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=${{ secrets.WEATHER_API_KEY }}&units=metric")
           TEMP=$(echo $RESPONSE | jq '.main.temp')
           CITYNAME=$(echo $RESPONSE | jq -r '.name')
