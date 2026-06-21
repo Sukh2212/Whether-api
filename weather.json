@@ -1,8 +1,8 @@
 {
-  "temp": 32.75,
-  "feels_like": 31.69,
-  "humidity": 30,
-  "wind": 1.25,
-  "condition": "Clear",
+  "temp": 35.33,
+  "feels_like": 34.73,
+  "humidity": 28,
+  "wind": 0.12,
+  "condition": "Clouds",
   "city": "Ropar"
 }
